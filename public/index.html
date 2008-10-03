@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Merb and Sequel</title>
+		<!-- metadata -->
+		<meta name="generator" content="S5" />
+		<meta name="presdate" content="" />
+		<meta name="author" content="Lori Holden" />
+		<meta name="company" content="Yellowpages.com" />
+		<!-- configuration parameters -->
+		<meta name="defaultView" content="slideshow" />
+		<meta name="controlVis" content="hidden" />
+		<!-- style sheet links -->
+		<link rel="stylesheet" href="highlight/sunburst.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="ui/default/slides.css" type="text/css" media="projection" id="slideProj" />
+		<link rel="stylesheet" href="ui/default/outline.css" type="text/css" media="screen" id="outlineStyle" />
+		<link rel="stylesheet" href="ui/default/print.css" type="text/css" media="print" id="slidePrint" />
+		<link rel="stylesheet" href="ui/default/opera.css" type="text/css" media="projection" id="operaFix" />
+
+		<!-- S5 JS -->
+		<script src="ui/default/slides.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="layout">
+			<div id="controls"><!-- DO NOT EDIT --></div>
+			<div id="currentSlide"><!-- DO NOT EDIT --></div>
+			<div id="header"></div>
+			<div id="footer">
+				<h1>Merbcamp 2008</h1>
+				<h2>Merb and Sequel</h2>
+			</div>
+		</div>
+		<div class="presentation">
+				<div class="slide">
+					<h1>Merb and Sequel</h1>
+
+<h3>Lori Holden</h3>
+
+<h4>Yellowpages.com</h4>
+
+				</div>
+				<div class="slide">
+					<h1>Merb and Sequel</h1>
+
+<ul>
+<li>Features of Sequel.</li>
+<li>Using Sequel with Merb.</li>
+<li>Why choose Sequel over the alternatives.</li>
+<li>Complications.</li>
+</ul>
+
+
+				</div>
+				<div class="slide">
+					<h1>Sequel: The Database Toolkit for Ruby</h1>
+
+<ul>
+<li>Sequel provides thread safety, connection pooling and a concise DSL for constructing database queries and table schemas.</li>
+<li>Sequel also includes a lightweight but comprehensive ORM layer for mapping records to Ruby objects and handling associated records.</li>
+<li>Sequel supports advanced database features such as prepared statements, bound variables, master/slave configurations, and database sharding.</li>
+<li>Sequel currently has adapters for ADO, DB2, DBI, Informix, JDBC, MySQL, ODBC, OpenBase, Oracle, PostgreSQL and SQLite3.</li>
+</ul>
+
+
+				</div>
+				<div class="slide">
+					<h1>Sequel Examples!</h1>
+
+<p>Raw select, print out each row.</p>
+
+<pre class="sunburst"><span class="Variable">DB</span>[<span class="String"><span class="String">'</span>select * from posts<span class="String">'</span></span>].<span class="Entity">each</span> {|<span class="Variable">row</span>| p row }
+</pre>
+
+
+<p>Get a handle for a table</p>
+
+<pre class="sunburst">posts <span class="Keyword">=</span> <span class="Variable">DB</span>[<span class="Constant"><span class="Constant">:</span>posts</span>]
+</pre>
+
+
+<p>Restrict results using a filter</p>
+
+<pre class="sunburst">filtered <span class="Keyword">=</span> posts.<span class="Entity">filter</span> <span class="Constant"><span class="Constant">:</span>category</span> =&gt; [<span class="String"><span class="String">'</span>ruby<span class="String">'</span></span>, <span class="String"><span class="String">'</span>postgres<span class="String">'</span></span>]
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Sequel Models</h1>
+
+<p>Post Model</p>
+
+<pre class="sunburst"><span class="Keyword">class</span> <span class="JEntityNameType">Post<span class="EntityInheritedClass"> <span class="EntityInheritedClass">&lt;</span> Sequel::Model</span></span>
+  many_to_one <span class="Constant"><span class="Constant">:</span>author</span>
+
+  validates <span class="Keyword">do</span>
+    presence_of <span class="Constant"><span class="Constant">:</span>title</span>
+  <span class="Keyword">end</span>
+<span class="Keyword">end</span>
+</pre>
+
+
+<p>Find post with title 'hello world'</p>
+
+<pre class="sunburst">post <span class="Keyword">=</span> <span class="Support">Post</span>[<span class="Constant"><span class="Constant">:</span>title</span> =&gt; <span class="String"><span class="String">'</span>hello world<span class="String">'</span></span>]
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Migrations</h1>
+
+<p>Fully supports migrations:</p>
+
+<pre class="sunburst"><span class="Comment"><span class="Comment">#</span> schema/migrations/001_post_migration.rb</span>
+<span class="Keyword">class</span> <span class="JEntityNameType">PostMigration<span class="EntityInheritedClass"> <span class="EntityInheritedClass">&lt;</span> Sequel::Migration</span></span>
+  <span class="Keyword">def</span> <span class="Entity">up</span>
+    create_table <span class="Constant"><span class="Constant">:</span>posts</span> <span class="Keyword">do</span>
+      primary_key <span class="Constant"><span class="Constant">:</span>id</span>
+      text <span class="Constant"><span class="Constant">:</span>title</span>
+      text <span class="Constant"><span class="Constant">:</span>category</span>
+      foreign_key <span class="Constant"><span class="Constant">:</span>author_id</span>, <span class="Constant"><span class="Constant">:</span>table</span> =&gt; <span class="Constant"><span class="Constant">:</span>authors</span>
+    <span class="Keyword">end</span>
+  <span class="Keyword">end</span>
+
+  <span class="Keyword">def</span> <span class="Entity">down</span>
+    drop_table <span class="Constant"><span class="Constant">:</span>posts</span>
+  <span class="Keyword">end</span>
+<span class="Keyword">end</span>
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Inline schema</h1>
+
+<p>Along with inline schema definition:</p>
+
+<pre class="sunburst"><span class="Keyword">class</span> <span class="JEntityNameType">Post<span class="EntityInheritedClass"> <span class="EntityInheritedClass">&lt;</span> Sequel::Model</span></span>
+  set_schema <span class="Keyword">do</span>
+    primary_key <span class="Constant"><span class="Constant">:</span>id</span>
+    text <span class="Constant"><span class="Constant">:</span>title</span>
+    text <span class="Constant"><span class="Constant">:</span>category</span>
+    foreign_key <span class="Constant"><span class="Constant">:</span>author_id</span>, <span class="Constant"><span class="Constant">:</span>table</span> =&gt; <span class="Constant"><span class="Constant">:</span>authors</span>
+  <span class="Keyword">end</span>
+<span class="Keyword">end</span>
+</pre>
+
+
+				</div>
+		</div>
+		
+	</body>
+</html>
