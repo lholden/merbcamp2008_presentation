@@ -36,9 +36,7 @@
 				<div class="slide">
 					<h1>Merb and Sequel</h1>
 
-<h3>Lori Holden</h3>
-
-<h4>Yellowpages.com</h4>
+<h3><a href="http://loriholden.com">Lori Holden</a></h3>
 
 				</div>
 				<div class="slide">
@@ -68,7 +66,7 @@
 				<div class="slide">
 					<h1>Sequel Examples!</h1>
 
-<p>Raw select, print out each row.</p>
+<p>Raw select, print out each row</p>
 
 <pre class="sunburst"><span class="Variable">DB</span>[<span class="String"><span class="String">'</span>select * from posts<span class="String">'</span></span>].<span class="Entity">each</span> {|<span class="Variable">row</span>| p row }
 </pre>
@@ -112,7 +110,7 @@
 				<div class="slide">
 					<h1>Migrations</h1>
 
-<p>Fully supports migrations:</p>
+<p>Fully supports migrations</p>
 
 <pre class="sunburst"><span class="Comment"><span class="Comment">#</span> schema/migrations/001_post_migration.rb</span>
 <span class="Keyword">class</span> <span class="JEntityNameType">PostMigration<span class="EntityInheritedClass"> <span class="EntityInheritedClass">&lt;</span> Sequel::Migration</span></span>
@@ -136,7 +134,7 @@
 				<div class="slide">
 					<h1>Inline schema</h1>
 
-<p>Along with inline schema definition:</p>
+<p>Along with inline schema definition</p>
 
 <pre class="sunburst"><span class="Keyword">class</span> <span class="JEntityNameType">Post<span class="EntityInheritedClass"> <span class="EntityInheritedClass">&lt;</span> Sequel::Model</span></span>
   set_schema <span class="Keyword">do</span>
@@ -153,7 +151,7 @@
 				<div class="slide">
 					<h1>Installing Sequel</h1>
 
-<p>Sequel and merb_sequel gems:</p>
+<p>Install the sequel and merb_sequel gems</p>
 
 <pre class="sunburst">
 $ sudo gem install sequel merb_sequel
@@ -164,7 +162,7 @@ $ sudo gem install sequel merb_sequel
 				<div class="slide">
 					<h1>Configure merb</h1>
 
-<p>Edit your init.rb file:</p>
+<p>Edit your init.rb file</p>
 
 <pre class="sunburst">
 <span class="Comment"><span class="Comment">#</span> Needed for auto timestamp support</span>
@@ -173,7 +171,7 @@ use_orm <span class="Constant"><span class="Constant">:</span>sequel</span>
 </pre>
 
 
-<p>Configure your database.yml file:</p>
+<p>Configure your database.yml file</p>
 
 <pre class="sunburst">
 <span class="Keyword">-</span><span class="Keyword">-</span><span class="Keyword">-</span>
@@ -201,16 +199,65 @@ Generating with model generator:
 
 
 <pre class="sunburst"><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> error_messages_for post <span class="EmbeddedSourceBright">%&gt;</span></span>
-<span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> <span class="EmbeddedSourceBright"><span class="Entity">form_for</span></span><span class="EmbeddedSourceBright">(</span>post<span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>action</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="EmbeddedSourceBright"><span class="Entity">url</span></span><span class="EmbeddedSourceBright">(</span><span class="Constant"><span class="Constant">:</span>post</span><span class="EmbeddedSourceBright">,</span> post<span class="EmbeddedSourceBright">)</span><span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>class</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="String"><span class="String">'</span>post_form<span class="String">'</span></span><span class="EmbeddedSourceBright">)</span> <span class="Keyword">do </span><span class="EmbeddedSourceBright">%&gt;</span></span>
+<span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> <span class="EmbeddedSourceBright"><span class="Entity">form_for</span></span><span class="EmbeddedSourceBright">(</span>post<span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>action</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="EmbeddedSourceBright"><span class="Entity">url</span></span><span class="EmbeddedSourceBright">(</span><span class="Constant"><span class="Constant">:</span>post</span><span class="EmbeddedSourceBright">,</span> post<span class="EmbeddedSourceBright">)</span><span class="EmbeddedSourceBright">)</span> <span class="Keyword">do </span><span class="EmbeddedSourceBright">%&gt;</span></span>
 <span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">fieldset</span><span class="MetaTagAll">&gt;</span></span>
   <span class="MetaTagInline"><span class="MetaTagInline">&lt;</span><span class="MetaTagInline">legend</span><span class="MetaTagInline">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> legend <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagInline"><span class="MetaTagInline">&lt;/</span><span class="MetaTagInline">legend</span><span class="MetaTagInline">&gt;</span></span>
-  <span class="MetaTagInline"><span class="MetaTagInline">&lt;</span><span class="MetaTagInline">input</span> <span class="MetaTagInline">type</span>=<span class="String"><span class="String">&quot;</span>hidden<span class="String">&quot;</span></span> <span class="MetaTagInline">name</span>=<span class="String"><span class="String">&quot;</span>parent_id<span class="String">&quot;</span></span> <span class="MetaTagInline">value</span>=<span class="String"><span class="String">&quot;</span><span class="StringEmbeddedSource"><span class="StringEmbeddedSource">&lt;%=</span> post<span class="StringEmbeddedSource"><span class="StringEmbeddedSource">.</span><span class="MetaTagInline">parent_id</span></span> <span class="StringEmbeddedSource">%&gt;</span></span><span class="String">&quot;</span></span><span class="MetaTagInline">&gt;</span></span>
   <span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> text_field <span class="Constant"><span class="Constant">:</span>title</span><span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>label</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="String"><span class="String">'</span>Title<span class="String">'</span></span> <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span>
   <span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> text_area <span class="Constant"><span class="Constant">:</span>body</span><span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>label</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="String"><span class="String">'</span>Body<span class="String">'</span></span> <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span>
   <span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> submit <span class="String"><span class="String">&quot;</span>Submit<span class="String">&quot;</span></span> <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span>
 <span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">fieldset</span><span class="MetaTagAll">&gt;</span></span>
 <span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%</span> <span class="Keyword">end</span> <span class="Keyword">=</span><span class="EmbeddedSourceBright">%&gt;</span></span>
 </pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Why use Sequel?</h1>
+
+<ul>
+<li>Supports a large set of databases</li>
+<li>Great query support</li>
+<li>Flexible</li>
+<li>Large feature set out of the box</li>
+<li>Manages to not be overkill (Hi ActiveRecord!)</li>
+</ul>
+
+
+				</div>
+				<div class="slide">
+					<h1>Complications with using Sequel</h1>
+
+<ul>
+<li>'merb-helpers' support (or lack of)
+<div class="handout">
+At the time of this writing, I haven't committed my helper modifications to 
+make everything just work. Hopefully that will have changed by the time I
+give this presentation ;)
+</div></li>
+<li>Lack of Merb developers using Sequel.
+<div class="handout">
+But thats why I am giving this presentation ;) 
+</div></li>
+</ul>
+
+
+				</div>
+				<div class="slide">
+					<h1>About Lori Holden</h1>
+
+<p>Lori is a Senior Software Engineer for <a href="http://yellowpages.com">YELLOWPAGES.COM</a>, part of the new <a href="http://att.com">at&amp;t</a>.</p>
+
+<ul>
+<li>Website: <a href="http://loriholden.com" title="My blog">loriholden.com</a></li>
+<li>IRC
+
+<ul>
+<li>Server: <a href="irc://irc.freenode.org">irc.freenode.org</a></li>
+<li>Nick: lholden</li>
+<li>Channel: <a href="irc://irc.freenode.org#merb-hacking">#merb-hacking</a></li>
+</ul>
+</li>
+</ul>
 
 
 				</div>

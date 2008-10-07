@@ -1,8 +1,7 @@
 <%= error_messages_for post %>
-<%= form_for(post, :action => url(:post, post), :class => 'post_form') do %>
+<%= form_for(post, :action => url(:post, post)) do %>
 <fieldset>
   <legend><%= legend %></legend>
-  <input type="hidden" name="parent_id" value="<%= post.parent_id %>">
   <p><%= text_field :title, :label => 'Title' %></p>
   <p><%= text_area :body, :label => 'Body' %></p>
   <p><%= submit "Submit" %></p>
