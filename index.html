@@ -150,6 +150,70 @@
 
 
 				</div>
+				<div class="slide">
+					<h1>Installing Sequel</h1>
+
+<p>Sequel and merb_sequel gems:</p>
+
+<pre class="sunburst">
+$ sudo gem install sequel merb_sequel
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Configure merb</h1>
+
+<p>Edit your init.rb file:</p>
+
+<pre class="sunburst">
+<span class="Comment"><span class="Comment">#</span> Needed for auto timestamp support</span>
+<span class="Keyword">require</span> <span class="String"><span class="String">'</span>sequel_timestamped<span class="String">'</span></span>
+use_orm <span class="Constant"><span class="Constant">:</span>sequel</span>
+</pre>
+
+
+<p>Configure your database.yml file:</p>
+
+<pre class="sunburst">
+<span class="Keyword">-</span><span class="Keyword">-</span><span class="Keyword">-</span>
+<span class="MetaTagAll"><span class="MetaTagInline">development</span><span class="MetaTagAll">:</span> </span><span class="Variable"><span class="Variable">&amp;</span>defaults</span>
+  <span class="String"><span class="MetaTagInline">adapter<span class="MetaTagInline">:</span></span> <span class="String">sqlite</span></span>
+  <span class="String"><span class="MetaTagInline">database<span class="MetaTagInline">:</span></span> <span class="String">db/development.db</span></span>
+  <span class="Comment"><span class="Comment">#</span>...</span>
+  <span class="Comment"><span class="Comment">#</span> Etc, the usual ;)</span>
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Start coding!</h1>
+
+<p>From this point forward, things work as usual... mostly</p>
+
+<pre class="sunburst">
+$ merb-gen model Post
+Generating with model generator:
+     [ADDED]  spec/models/post_spec.rb
+     [ADDED]  app/models/post.rb
+     [ADDED]  schema/migrations/001_post_migration.rb
+</pre>
+
+
+<pre class="sunburst"><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> error_messages_for post <span class="EmbeddedSourceBright">%&gt;</span></span>
+<span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> <span class="EmbeddedSourceBright"><span class="Entity">form_for</span></span><span class="EmbeddedSourceBright">(</span>post<span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>action</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="EmbeddedSourceBright"><span class="Entity">url</span></span><span class="EmbeddedSourceBright">(</span><span class="Constant"><span class="Constant">:</span>post</span><span class="EmbeddedSourceBright">,</span> post<span class="EmbeddedSourceBright">)</span><span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>class</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="String"><span class="String">'</span>post_form<span class="String">'</span></span><span class="EmbeddedSourceBright">)</span> <span class="Keyword">do </span><span class="EmbeddedSourceBright">%&gt;</span></span>
+<span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">fieldset</span><span class="MetaTagAll">&gt;</span></span>
+  <span class="MetaTagInline"><span class="MetaTagInline">&lt;</span><span class="MetaTagInline">legend</span><span class="MetaTagInline">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> legend <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagInline"><span class="MetaTagInline">&lt;/</span><span class="MetaTagInline">legend</span><span class="MetaTagInline">&gt;</span></span>
+  <span class="MetaTagInline"><span class="MetaTagInline">&lt;</span><span class="MetaTagInline">input</span> <span class="MetaTagInline">type</span>=<span class="String"><span class="String">&quot;</span>hidden<span class="String">&quot;</span></span> <span class="MetaTagInline">name</span>=<span class="String"><span class="String">&quot;</span>parent_id<span class="String">&quot;</span></span> <span class="MetaTagInline">value</span>=<span class="String"><span class="String">&quot;</span><span class="StringEmbeddedSource"><span class="StringEmbeddedSource">&lt;%=</span> post<span class="StringEmbeddedSource"><span class="StringEmbeddedSource">.</span><span class="MetaTagInline">parent_id</span></span> <span class="StringEmbeddedSource">%&gt;</span></span><span class="String">&quot;</span></span><span class="MetaTagInline">&gt;</span></span>
+  <span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> text_field <span class="Constant"><span class="Constant">:</span>title</span><span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>label</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="String"><span class="String">'</span>Title<span class="String">'</span></span> <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span>
+  <span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> text_area <span class="Constant"><span class="Constant">:</span>body</span><span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>label</span> <span class="EmbeddedSourceBright">=&gt;</span> <span class="String"><span class="String">'</span>Body<span class="String">'</span></span> <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span>
+  <span class="MetaTagAll"><span class="MetaTagAll">&lt;</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> submit <span class="String"><span class="String">&quot;</span>Submit<span class="String">&quot;</span></span> <span class="EmbeddedSourceBright">%&gt;</span></span><span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">p</span><span class="MetaTagAll">&gt;</span></span>
+<span class="MetaTagAll"><span class="MetaTagAll">&lt;/</span><span class="MetaTagAll">fieldset</span><span class="MetaTagAll">&gt;</span></span>
+<span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%</span> <span class="Keyword">end</span> <span class="Keyword">=</span><span class="EmbeddedSourceBright">%&gt;</span></span>
+</pre>
+
+
+				</div>
 		</div>
 		
 	</body>

@@ -1,0 +1,18 @@
+# Configure merb
+
+Edit your init.rb file:
+<%= code 'ruby', %{
+  # Needed for auto timestamp support
+  require 'sequel_timestamped'
+  use_orm :sequel
+} %>
+
+Configure your database.yml file:
+<%= code 'yaml', %{
+  ---
+  development: &defaults
+    adapter: sqlite
+    database: db/development.db
+    #...
+    # Etc, the usual ;)
+} %>
