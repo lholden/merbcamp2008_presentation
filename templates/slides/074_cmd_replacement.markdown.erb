@@ -1,0 +1,19 @@
+# Command Line Support
+
+Kickass replacement for the psql/sqlite/mysql command-line tools.
+<%= code 'shell-unix-generic', %{
+  $ sequel config/database.yml
+  Your database is stored in DB...
+  irb(main)> DB.tables
+  => [:schema_info, :roles, :users, :posts, :roles_users]
+  irb(main)> pp DB.schema(:posts)
+  [[:id,
+    {:type=>:integer,
+     :max_chars=>nil,
+     :default=>nil,
+     :allow_null=>true,
+     :db_type=>"integer",
+     :numeric_precision=>nil,
+     :primary_key=>true}],
+  .... etc etc
+} %>

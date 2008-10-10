@@ -1,0 +1,13 @@
+<%
+@posts = Post.paginate(page.to_i, per_page).
+  where(:parent_id => nil).
+  reverse_order(:created_at)
+%>
+
+<% @posts.each do |post| %>
+  <%= partial :post, :with => post %>
+<% end %>
+
+<% if @posts.page_count > 1 %>
+  <%= paginate(@posts.current_page, @posts.page_count) %>
+<% end %>

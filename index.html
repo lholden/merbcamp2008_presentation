@@ -34,13 +34,13 @@
 		</div>
 		<div class="presentation">
 				<div class="slide">
-					<h1> Merb and Sequel</h1>
+					<h1>Merb and Sequel</h1>
 
-<h3> <a href="http://loriholden.com">Lori Holden</a></h3>
+<h3><a href="http://loriholden.com">Lori Holden</a></h3>
 
 				</div>
 				<div class="slide">
-					<h1> About this presentation</h1>
+					<h1>About this presentation</h1>
 
 <p>In this presentation I will cover:</p>
 
@@ -54,7 +54,7 @@
 
 				</div>
 				<div class="slide">
-					<h1> Sequel: The Database Toolkit for Ruby</h1>
+					<h1>Sequel: The Database Toolkit for Ruby</h1>
 
 <p>From the Sequel website (<a href="http://sequel.rubyforge.org/">http://sequel.rubyforge.org/</a>)</p>
 
@@ -68,29 +68,59 @@
 
 				</div>
 				<div class="slide">
-					<h1> Sequel Examples!</h1>
+					<h1>Examples!</h1>
 
-<p>Raw select, print out each row</p>
+<p>Some basics</p>
 
-<pre class="sunburst"><span class="Variable">DB</span>[<span class="String"><span class="String">'</span>select * from posts<span class="String">'</span></span>].<span class="Entity">each</span> {|<span class="Variable">row</span>| p row }
-</pre>
+<pre class="sunburst"><span class="Comment"><span class="Comment">#</span> Raw select, print out each row.</span>
+<span class="Variable">DB</span>[<span class="String"><span class="String">'</span>select * from posts<span class="String">'</span></span>].<span class="Entity">each</span> {|<span class="Variable">row</span>| p row }
 
+<span class="Comment"><span class="Comment">#</span> Get a handle for a table</span>
+posts <span class="Keyword">=</span> <span class="Variable">DB</span>[<span class="Constant"><span class="Constant">:</span>posts</span>]
 
-<p>Get a handle for a table</p>
-
-<pre class="sunburst">posts <span class="Keyword">=</span> <span class="Variable">DB</span>[<span class="Constant"><span class="Constant">:</span>posts</span>]
-</pre>
-
-
-<p>Restrict results using a filter</p>
-
-<pre class="sunburst">filtered <span class="Keyword">=</span> posts.<span class="Entity">filter</span> <span class="Constant"><span class="Constant">:</span>category</span> =&gt; [<span class="String"><span class="String">'</span>ruby<span class="String">'</span></span>, <span class="String"><span class="String">'</span>postgres<span class="String">'</span></span>]
+<span class="Comment"><span class="Comment">#</span> Restrict results using a filter</span>
+filtered <span class="Keyword">=</span> posts.<span class="Entity">filter</span>(<span class="Constant"><span class="Constant">:</span>category</span> =&gt; [<span class="String"><span class="String">'</span>ruby<span class="String">'</span></span>, <span class="String"><span class="String">'</span>postgres<span class="String">'</span></span>])
 </pre>
 
 
 				</div>
 				<div class="slide">
-					<h1> Sequel Models</h1>
+					<h1>Examples! Continued...</h1>
+
+<p>If you can do it in SQL, you can do it in Sequel</p>
+
+<pre class="sunburst"><span class="Comment"><span class="Comment">#</span> Add an index</span>
+<span class="Variable">DB</span>.<span class="Entity">add_index</span> <span class="Constant"><span class="Constant">:</span>posts</span>, [<span class="Constant"><span class="Constant">:</span>author</span>, <span class="Constant"><span class="Constant">:</span>title</span>], <span class="Constant"><span class="Constant">:</span>unique</span> =&gt; <span class="Constant">true</span>
+
+<span class="Comment"><span class="Comment">#</span> Insert a new record</span>
+<span class="Variable">DB</span>[<span class="Constant"><span class="Constant">:</span>posts</span>] <span class="Keyword">&lt;&lt;</span> {<span class="Constant"><span class="Constant">:</span>title</span> =&gt; <span class="String"><span class="String">'</span>Awesome post<span class="String">'</span></span>, <span class="Constant"><span class="Constant">:</span>body</span> =&gt; <span class="String"><span class="String">'</span>LOL<span class="String">'</span></span>}
+
+<span class="Comment"><span class="Comment">#</span> Union selects</span>
+<span class="Variable">DB</span>[<span class="Constant"><span class="Constant">:</span>items</span>].<span class="Entity">union</span>(<span class="Variable">DB</span>[<span class="Constant"><span class="Constant">:</span>other_items</span>]).<span class="Entity">sql</span>
+<span class="Comment"><span class="Comment">#</span>=&gt; &quot;SELECT * FROM items UNION SELECT * FROM other_items&quot;</span>
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Chaining</h1>
+
+<p>Its like... SQL or something ;)</p>
+
+<pre class="sunburst"><span class="Variable">DB</span>[<span class="Constant"><span class="Constant">:</span>items</span>].
+  <span class="Entity">select</span>(<span class="Constant"><span class="Constant">:</span>x</span>, <span class="Constant"><span class="Constant">:</span>y</span>, <span class="Constant"><span class="Constant">:</span>z</span>).
+  <span class="Entity">filter</span>((<span class="Constant"><span class="Constant">:</span>x</span> <span class="Keyword">&gt;</span> <span class="Constant">1</span>) <span class="Keyword">&amp;</span> (<span class="Constant"><span class="Constant">:</span>y</span> <span class="Keyword">&gt;</span> <span class="Constant">2</span>)).
+  <span class="Entity">order</span>(<span class="Constant"><span class="Constant">:</span>z</span>.<span class="Entity">desc</span>).
+  sql
+  
+<span class="Comment"><span class="Comment">#</span>=&gt; &quot;SELECT `x`, `y`, `z` FROM `items` </span>
+<span class="Comment"><span class="Comment">#</span>     WHERE ((`x` &gt; 1) AND (`y` &gt; 2)) ORDER BY `z` DESC&quot;</span>
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Models</h1>
 
 <p>Post Model</p>
 
@@ -112,7 +142,7 @@
 
 				</div>
 				<div class="slide">
-					<h1> Migrations</h1>
+					<h1>Migrations</h1>
 
 <p>Fully supports migrations</p>
 
@@ -136,7 +166,7 @@
 
 				</div>
 				<div class="slide">
-					<h1> Inline schema</h1>
+					<h1>Inline schema</h1>
 
 <p>Along with inline schema definition</p>
 
@@ -153,7 +183,58 @@
 
 				</div>
 				<div class="slide">
-					<h1> Installing Sequel</h1>
+					<h1>Pagination</h1>
+
+<p>Built in pagination</p>
+
+<pre class="sunburst"><span class="Variable"><span class="Variable">@</span>posts</span> <span class="Keyword">=</span> <span class="Support">Post</span>.<span class="Entity">paginate</span>(page.<span class="Entity">to_i</span>, per_page).
+  <span class="Entity">where</span>(<span class="Constant"><span class="Constant">:</span>parent_id</span> =&gt; <span class="Constant">nil</span>).
+  <span class="Entity">reverse_order</span>(<span class="Constant"><span class="Constant">:</span>created_at</span>)
+</pre>
+
+
+<p>Using merb-pagination for a full solution</p>
+
+<pre class="sunburst"><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%</span> <span class="Variable"><span class="Variable">@</span>posts</span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">.</span><span class="Entity">each</span></span> <span class="Keyword">do </span><span class="EmbeddedSourceBright">|</span><span class="Variable">post</span><span class="EmbeddedSourceBright">|</span> <span class="EmbeddedSourceBright">%&gt;</span></span>
+  <span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> partial <span class="Constant"><span class="Constant">:</span>post</span><span class="EmbeddedSourceBright">,</span> <span class="Constant"><span class="Constant">:</span>with</span> <span class="EmbeddedSourceBright">=&gt;</span> post <span class="EmbeddedSourceBright">%&gt;</span></span>
+<span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%</span> <span class="Keyword">end</span> <span class="EmbeddedSourceBright">%&gt;</span></span>
+
+<span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%</span> <span class="Keyword">if</span> <span class="Variable"><span class="Variable">@</span>posts</span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">.</span><span class="Entity">page_count</span></span> <span class="Keyword">&gt;</span> <span class="Constant">1</span> <span class="EmbeddedSourceBright">%&gt;</span></span>
+  <span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%=</span> <span class="EmbeddedSourceBright"><span class="Entity">paginate</span></span><span class="EmbeddedSourceBright">(</span><span class="Variable"><span class="Variable">@</span>posts</span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">.</span><span class="Entity">current_page</span></span><span class="EmbeddedSourceBright">,</span> <span class="Variable"><span class="Variable">@</span>posts</span><span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">.</span><span class="Entity">page_count</span></span><span class="EmbeddedSourceBright">)</span> <span class="EmbeddedSourceBright">%&gt;</span></span>
+<span class="EmbeddedSourceBright"><span class="EmbeddedSourceBright">&lt;%</span> <span class="Keyword">end</span> <span class="EmbeddedSourceBright">%&gt;</span></span>
+</pre>
+
+
+<div class="handout">Yeah yeah, a plug for my pagination plugin.</div>
+
+
+				</div>
+				<div class="slide">
+					<h1>Command Line Support</h1>
+
+<p>Kickass replacement for the psql/sqlite/mysql command-line tools.</p>
+
+<pre class="sunburst">
+$ sequel config/database.yml
+Your database is stored <span class="Keyword">in</span> DB...
+irb(main)<span class="Keyword">&gt;</span> DB.tables
+=<span class="Keyword">&gt;</span> [:schema_info, :roles, :users, :posts, :roles_users]
+irb(main)<span class="Keyword">&gt;</span> pp DB.schema(:posts)
+[[:id,
+  {:type=<span class="Keyword">&gt;</span>:integer,
+   :max_chars=<span class="Keyword">&gt;</span>nil,
+   :default=<span class="Keyword">&gt;</span>nil,
+   :allow_null=<span class="Keyword">&gt;</span>true,
+   :db_type=<span class="Keyword">&gt;</span><span class="String"><span class="String">&quot;</span>integer<span class="String">&quot;</span></span>,
+   :numeric_precision=<span class="Keyword">&gt;</span>nil,
+   :primary_key=<span class="Keyword">&gt;</span>true}],
+.... etc etc
+</pre>
+
+
+				</div>
+				<div class="slide">
+					<h1>Installing Sequel</h1>
 
 <p>Install the sequel and merb_sequel gems</p>
 
@@ -164,7 +245,7 @@ $ sudo gem install sequel merb_sequel
 
 				</div>
 				<div class="slide">
-					<h1> Configure merb</h1>
+					<h1>Configure merb</h1>
 
 <p>Edit your init.rb file</p>
 
@@ -189,7 +270,7 @@ use_orm <span class="Constant"><span class="Constant">:</span>sequel</span>
 
 				</div>
 				<div class="slide">
-					<h1> Start coding!</h1>
+					<h1>Start coding!</h1>
 
 <p>From this point forward, things work as usual... mostly</p>
 
@@ -216,7 +297,7 @@ Generating with model generator:
 
 				</div>
 				<div class="slide">
-					<h1> Why use Sequel?</h1>
+					<h1>Why use Sequel?</h1>
 
 <ul>
 <li>Supports a large set of databases</li>
@@ -229,7 +310,7 @@ Generating with model generator:
 
 				</div>
 				<div class="slide">
-					<h1> Complications with using Sequel</h1>
+					<h1>Complications with using Sequel</h1>
 
 <ul>
 <li>'merb-helpers' support (or lack of)
@@ -247,9 +328,9 @@ But thats why I am giving this presentation ;)
 
 				</div>
 				<div class="slide">
-					<h1> About Lori Holden</h1>
+					<h1>About Lori Holden</h1>
 
-<p>Lori is a Senior Software Engineer for <a href="http://yellowpages.com">YELLOWPAGES.COM</a>, part of the new <a href="http://att.com">at&amp;t</a>.</p>
+<p>Lori is a Senior Software Engineer for <a href="http://yellowpages.com">YELLOWPAGES.COM</a> / <a href="http://att.com">at&amp;t</a></p>
 
 <ul>
 <li>Website: <a href="http://loriholden.com" title="My blog">loriholden.com</a></li>
@@ -263,6 +344,15 @@ But thats why I am giving this presentation ;)
 </li>
 </ul>
 
+
+<p>This presentation was produced using Presentation Builder<br/>
+<a href="http://github.com/lholden/presentation-builder">http://github.com/lholden/presentation-builder</a></p>
+
+				</div>
+				<div class="slide">
+					<h1>Q &amp; A</h1>
+
+<p>What, like answering questions? :)</p>
 
 				</div>
 		</div>
